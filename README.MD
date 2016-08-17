@@ -1,6 +1,6 @@
 # AwesomeMVP
 
-[![](/mail.jpg=100px)](mailto:jpwang121@gmail.com)
+[![](/mail.jpg)](mailto:jpwang121@gmail.com)
 [![](/github.jpg)](https://github.com/jp-wang)
 [![](/linkin.jpg)](https://www.linkedin.com/in/wangjianpu)
 

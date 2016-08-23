@@ -28,12 +28,12 @@ public abstract class BasePresenter<M, V extends IView> implements IPresenter<V,
     }
 
     @NonNull
-    protected V getView() {
+    protected final V getView() {
         return this.view;
     }
 
     @Nullable
-    protected M getModel() {
+    protected final M getModel() {
         return this.model;
     }
 }

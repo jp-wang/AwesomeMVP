@@ -15,14 +15,14 @@ import static io.jp.mvp.Util.*;
  * and you can also use Dagger to make it
  *
  */
-abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
+public abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
     private V view;
     private P presenter;
     private M model;
     private IModelSerializer<M> serializer;
     private String modelKey;
 
-    MVPDelegate(@NonNull V view, IModelSerializer<M> modelSerializer) {
+    public MVPDelegate(@NonNull V view, IModelSerializer<M> modelSerializer) {
         this.view = view;
         this.serializer = modelSerializer;
     }
@@ -36,7 +36,7 @@ abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
      *
      * @see android.app.Activity#onCreate(Bundle)
      */
-    final void onCreate(Bundle savedInstanceState) {
+    public final void onCreate(Bundle savedInstanceState) {
         this.presenter = createPresenter();
 
         modelKey = this.view.getClass().getCanonicalName() + "$Model";
@@ -53,7 +53,7 @@ abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
      *
      * @see Activity#onDestroy()
      */
-    final void onDestroy() {
+    public final void onDestroy() {
         checkPresenterNotNull();
         this.presenter.onDestroy();
     }
@@ -63,7 +63,7 @@ abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
      *
      * @see Activity#onStart()
      */
-    final void onStart() {
+    public final void onStart() {
         checkPresenterNotNull();
         this.presenter.attachView(this.view, this.model);
     }
@@ -73,7 +73,7 @@ abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
      *
      * @see Activity#onStop()
      */
-    final void onStop() {
+    public final void onStop() {
         checkPresenterNotNull();
         this.presenter.detachView();
     }
@@ -85,7 +85,7 @@ abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
      *
      * @see Activity#onSaveInstanceState(Bundle)
      */
-    final void onSaveInstanceState(Bundle bundle) {
+    public final void onSaveInstanceState(Bundle bundle) {
         if (this.model != null) {
             if (this.serializer != null) {
                 this.serializer.saveInstanceState(modelKey, this.model, bundle);
@@ -93,7 +93,7 @@ abstract class MVPDelegate<M, V extends IView, P extends IPresenter<V, M>> {
         }
     }
 
-    final P getPresenter() {
+    public final P getPresenter() {
         return this.presenter;
     }
 

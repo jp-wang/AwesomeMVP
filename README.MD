@@ -12,4 +12,5 @@ For more information about the library design, please refer to my blog [**Deep i
  
 ## Setup
 
-
+The build was published into bintray by
+`./gradlew clean build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false`

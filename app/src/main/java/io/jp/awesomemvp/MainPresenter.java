@@ -33,13 +33,23 @@ public class MainPresenter extends BasePresenter<Void, MainContract.IMainView> i
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Double>() {
                     @Override
-                    public void call(Double aDouble) {
-                        getView().showToastMessage("PI = " + aDouble);
+                    public void call(final Double aDouble) {
+                        runViewAction(new Action<MainContract.IMainView>() {
+                            @Override
+                            public void call(MainContract.IMainView view) {
+                                view.showToastMessage("PI = " + aDouble);
+                            }
+                        });
                     }
                 }, new Action1<Throwable>() {
                     @Override
-                    public void call(Throwable throwable) {
-                        getView().showToastMessage(throwable.getMessage());
+                    public void call(final Throwable throwable) {
+                        runViewAction(new Action<MainContract.IMainView>() {
+                            @Override
+                            public void call(MainContract.IMainView view) {
+                                view.showToastMessage(throwable.getMessage());
+                            }
+                        });
                     }
                 });
     }

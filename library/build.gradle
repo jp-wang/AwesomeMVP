@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 23
@@ -22,4 +23,14 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-annotations:23.2.1'
+}
+
+publish {
+    groupId = 'io.jp.mvp'
+    artifactId = 'awesome-mvp'
+    version = '1.0.0'
+    description = 'AwesomeMVP is a simple android library to implement the MVP pattern. Easy integrate and easy use.\n' +
+            '\n' +
+            'For more information about the library design, please refer to my blog <Deep into MVP>'
+    website = "https://github.com/neiyo1987/${rootProject.name}"
 }

@@ -1,11 +1,11 @@
 package io.jp.awesomemvp;
 
 import io.jp.mvp.BasePresenter;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * @author jpwang
@@ -16,9 +16,9 @@ public class MainPresenter extends BasePresenter<Void, MainContract.IMainView> i
     public void calculatePI(long terms) {
         Observable.just(terms)
                 .subscribeOn(Schedulers.computation())
-                .map(new Func1<Long, Double>() {
+                .map(new Function<Long, Double>() {
                     @Override
-                    public Double call(Long integer) {
+                    public Double apply(Long integer) {
                         double sum = 0;
                         for(double i=0; i<integer; i++)
                         {
@@ -31,26 +31,7 @@ public class MainPresenter extends BasePresenter<Void, MainContract.IMainView> i
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Double>() {
-                    @Override
-                    public void call(final Double aDouble) {
-                        runViewAction(new Action<MainContract.IMainView>() {
-                            @Override
-                            public void call(MainContract.IMainView view) {
-                                view.showToastMessage("PI = " + aDouble);
-                            }
-                        });
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(final Throwable throwable) {
-                        runViewAction(new Action<MainContract.IMainView>() {
-                            @Override
-                            public void call(MainContract.IMainView view) {
-                                view.showToastMessage(throwable.getMessage());
-                            }
-                        });
-                    }
-                });
+                .subscribe(aDouble -> runViewAction(view -> view.showToastMessage("PI = " + aDouble)),
+                        throwable -> runViewAction(view -> view.showToastMessage(throwable.getMessage())));
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 class GeneratePIModel implements Parcelable {
     private List<String> PIs = new ArrayList<>();
+    private long seed = 0L;
 
     public List<String> getPIs() {
         return PIs;
@@ -17,17 +18,27 @@ class GeneratePIModel implements Parcelable {
         this.PIs.add(pi);
     }
 
+    public long getSeed() {
+        return seed;
+    }
+
+    public void setSeed(long seed) {
+        this.seed = seed;
+    }
+
     GeneratePIModel() {
 
     }
 
     protected GeneratePIModel(Parcel in) {
         in.readStringList(PIs);
+        this.seed = in.readLong();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeStringList(PIs);
+        dest.writeLong(this.seed);
     }
 
     @Override

@@ -19,6 +19,11 @@ public class GeneratePIListActivity extends BaseActivity<GeneratePIModel, Genera
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pi_list);
         setupListAdapter();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         init();
     }
 

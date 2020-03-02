@@ -8,9 +8,13 @@ import java.util.concurrent.TimeUnit;
 import io.jp.mvp.BasePresenter;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class GeneratePIPresenter extends BasePresenter<GeneratePIModel, GeneratePIContract.IGeneratePIView> implements GeneratePIContract.IGeneratePIPresenter {
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     public void attachView(@NonNull GeneratePIContract.IGeneratePIView view, @Nullable GeneratePIModel model) {
@@ -22,15 +26,26 @@ public class GeneratePIPresenter extends BasePresenter<GeneratePIModel, Generate
 
     @Override
     public void generatePIs() {
-        Observable.interval(3, TimeUnit.SECONDS)
-                .startWithItem(1L)
-                .map(this::generatePI)
+        Disposable disposable = Observable.interval(3, TimeUnit.SECONDS)
+                .map(num -> num + getModel().getSeed())
+                .map(num -> {
+                    getModel().setSeed(num);
+                    return generatePI(num);
+                })
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(num -> {
                     getModel().addPI(num+"");
                     runViewAction(view -> view.updatePIList(getModel().getPIs()));
                 });
+
+        compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
     }
 
     private double generatePI(long num) {

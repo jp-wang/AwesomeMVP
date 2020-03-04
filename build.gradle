@@ -44,7 +44,7 @@ ext {
     timberVersion = '4.7.1'
     retrofitVersion = '2.7.1'
     picassoVersion = '2.71828'
-    rxJavaVersion = '3.0.0'
-    rxAndroidVersion = '3.0.0'
+    rxJavaVersion = '2.2.9'
+    rxAndroidVersion = '2.1.1'
     coroutinesVersion = '1.2.1'
 }
